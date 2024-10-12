@@ -2,37 +2,13 @@ name: My first workflow
 
 on: 
     push
-
-env:
-    FILENAME: myfile.txt
-    ARTIFACT_NAME: my-file     
+ 
 jobs:
     my-job1:
         runs-on: ubuntu-latest
         steps:
-        - name: create file
-          run: touch $FILENAME
-
-    my-job2:
-        needs: my-job1
-        runs-on: ubuntu-latest
-        steps:
-        - name: writing in a file
-          run: echo "Hello Word" > $FILENAME
-
-        - uses: actions/upload-artifact@v4
-          with:
-            name: ${{ env.ARTIFACT_NAME }}
-            path: $FILENAME  
-
-    my-job3:
-        needs: my-job2
-        runs-on: ubuntu-latest
-        steps:
-
-        - uses: actions/download-artifact@v4
-          with:
-            name: ${{ env.ARTIFACT_NAME }}
-
-        - name: Display the content 
-          run: cat $FILENAME      
+        - name: diplay env
+          run: |
+            echo ${{ secrets.DOCKER_PASSWORD }}
+            echo ${{ vars.DOCKER_USERNAME}}
+          
