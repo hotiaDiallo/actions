@@ -4,8 +4,22 @@ on:
     push
 
 jobs:
-    my-job:
+    my-job1:
         runs-on: ubuntu-latest
         steps:
-        - name: Display message
-          run: echo "Hello World"  
+        - name: creating a file
+          run: touch myfile.txt  
+
+    my-job2:
+        needs: my-job1
+        runs-on: ubuntu-latest
+        steps:
+        - name: writing in a file
+          run: echo "Hello Word" > myfile.txt
+
+    my-job3:
+        needs: my-job2
+        runs-on: ubuntu-latest
+        steps:
+        - name: Display the content 
+          run: cat myfile.txt      
