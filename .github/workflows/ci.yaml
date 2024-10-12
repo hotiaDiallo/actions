@@ -3,24 +3,20 @@ name: My first workflow
 on: 
     push
 
+env:
+    FILENAME: myfile.txt
+    ARTIFACT_NAME: my-file     
 jobs:
-    my-job1:
-        runs-on: ubuntu-latest
-        steps:
-        - name: creating a file
-          run: touch myfile.txt  
-
     my-job2:
-        needs: my-job1
         runs-on: ubuntu-latest
         steps:
         - name: writing in a file
-          run: echo "Hello Word" > myfile.txt
+          run: echo "Hello Word" > $FILENAME
 
         - uses: actions/upload-artifact@v4
           with:
-            name: my-file
-            path: myfile.txt  
+            name: ${{ env.ARTIFACT_NAME }}
+            path: $FILENAME  
 
     my-job3:
         needs: my-job2
@@ -29,7 +25,7 @@ jobs:
 
         - uses: actions/download-artifact@v4
           with:
-            name: my-file
+            name: ${{ env.ARTIFACT_NAME }}
 
         - name: Display the content 
-          run: cat myfile.txt      
+          run: cat $FILENAME      
