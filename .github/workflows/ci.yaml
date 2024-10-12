@@ -17,9 +17,19 @@ jobs:
         - name: writing in a file
           run: echo "Hello Word" > myfile.txt
 
+        - uses: actions/upload-artifact@v4
+          with:
+            name: my-file
+            path: myfile.txt  
+
     my-job3:
         needs: my-job2
         runs-on: ubuntu-latest
         steps:
+
+        - uses: actions/download-artifact@v4
+          with:
+            name: my-file
+
         - name: Display the content 
           run: cat myfile.txt      
